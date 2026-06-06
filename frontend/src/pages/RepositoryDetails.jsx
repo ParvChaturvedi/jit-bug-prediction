@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export default function RepositoryDetails() {
 
@@ -23,6 +24,7 @@ export default function RepositoryDetails() {
   const { id } = useParams();
 
   return (
+    <DashboardLayout>
     <div className="p-10">
 
       <h1 className="text-5xl font-bold">
@@ -34,5 +36,6 @@ export default function RepositoryDetails() {
       </p>
 
     </div>
+  </DashboardLayout>
   );
 }

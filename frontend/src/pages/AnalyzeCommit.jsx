@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import DashboardLayout from "../layouts/DashboardLayout";
 // import { useState } from "react";
 
 export default function AnalyzeCommit() {
@@ -21,7 +22,7 @@ export default function AnalyzeCommit() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4]">
+    <DashboardLayout>
 
       <div className="max-w-4xl mx-auto px-8 py-16">
 
@@ -137,6 +138,6 @@ export default function AnalyzeCommit() {
 
       </div>
 
-    </div>
+    </DashboardLayout>
   );
 }

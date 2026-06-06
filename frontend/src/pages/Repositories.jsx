@@ -1,4 +1,5 @@
 import RepoCard from "../components/cards/RepoCard";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 const repositories = [
   {
@@ -26,6 +27,7 @@ const repositories = [
 
 export default function Repositories() {
   return (
+    <DashboardLayout>
     <div className="min-h-screen bg-[#F8F7F4]">
 
       <div className="max-w-7xl mx-auto px-8 py-12">
@@ -52,5 +54,6 @@ export default function Repositories() {
       </div>
 
     </div>
+  </DashboardLayout>
   );
 }
