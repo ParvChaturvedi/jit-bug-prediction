@@ -20,7 +20,7 @@ export default function HeroSection() {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/predict",
+      "https://your-render-url.onrender.com/predict",
       {
         method: "POST",
         headers: {
