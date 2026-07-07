@@ -1,4 +1,5 @@
 import requests
+import os
 
 # --------------------------------------------------
 # GitHub Personal Access Token
@@ -8,8 +9,7 @@ import requests
 # TOKEN = os.getenv("GITHUB_TOKEN")
 # --------------------------------------------------
 
-TOKEN = "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"
-
+TOKEN = os.getenv("GITHUB_TOKEN")
 HEADERS = {
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28"
