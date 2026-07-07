@@ -17,7 +17,7 @@ app = Flask(__name__)
 CORS(
     app,
     origins=[
-        "https://your-project-name.vercel.app"
+        "https://jit-bug-prediction.vercel.app"
     ]
 )
 
