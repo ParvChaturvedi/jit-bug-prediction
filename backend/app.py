@@ -16,9 +16,13 @@ app = Flask(__name__)
 
 CORS(
     app,
-    origins=[
-        "https://jit-bug-prediction.vercel.app"
-    ]
+    resources={
+        r"/*": {
+            "origins": [
+                "https://jit-bug-prediction.vercel.app/"
+            ]
+        }
+    }
 )
 
 # ----------------------------------------------------
