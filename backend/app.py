@@ -13,7 +13,13 @@ from github_service import (
 )
 
 app = Flask(__name__)
-CORS(app)
+
+CORS(
+    app,
+    origins=[
+        "https://your-project-name.vercel.app"
+    ]
+)
 
 # ----------------------------------------------------
 # Paths
