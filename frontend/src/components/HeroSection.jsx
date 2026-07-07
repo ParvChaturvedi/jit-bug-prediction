@@ -20,7 +20,7 @@ export default function HeroSection() {
 
   try {
     const response = await fetch(
-      "https://jit-bug-prediction-1.onrender.com",
+      "https://jit-bug-prediction-1.onrender.com/",
       {
         method: "POST",
         headers: {
