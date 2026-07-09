@@ -19,7 +19,7 @@ CORS(
     resources={
         r"/*": {
             "origins": [
-                "https://jit-bug-prediction.vercel.app"
+                "https://jit-bug-prediction-git-main-parda.vercel.app"
             ]
         }
     }
