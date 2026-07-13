@@ -1,7 +1,7 @@
 import {
   Zap,
   Brain,
-  GitBranch,
+  GitPullRequest,
   ShieldCheck,
 } from "lucide-react";
 
@@ -9,23 +9,23 @@ export default function Features() {
   const features = [
     {
       icon: <Zap size={42} />,
-      title: "Fast Repository Analysis",
-      desc: "Get bug prediction results in seconds without manually inspecting commits.",
+      title: "Fast Pull Request Analysis",
+      desc: "Get a bug-risk score for a pull request in seconds, before you decide to merge it.",
     },
     {
       icon: <Brain size={42} />,
       title: "XGBoost Powered",
-      desc: "Built using a high-performance machine learning model trained on JIT bug datasets.",
+      desc: "Built using a high-performance machine learning model trained on real Apache commit history.",
     },
     {
-      icon: <GitBranch size={42} />,
-      title: "GitHub Integration",
-      desc: "Analyze public repositories directly from GitHub with a simple URL.",
+      icon: <GitPullRequest size={42} />,
+      title: "Real Diff Metrics",
+      desc: "Analyzes the pull request's actual changed files, lines, and how scattered the change is — not just a repository average.",
     },
     {
       icon: <ShieldCheck size={42} />,
-      title: "Explainable Predictions",
-      desc: "Understand why a repository is risky using interpretable model outputs.",
+      title: "Explainable Merge Recommendation",
+      desc: "See exactly why a PR was flagged risky via SHAP, plus a clear safe-to-merge or review-recommended call.",
     },
   ];
 
@@ -45,8 +45,8 @@ export default function Features() {
           </h2>
 
           <p className="text-gray-400 mt-6 text-lg max-w-3xl mx-auto">
-            Built to help developers identify risky code changes
-            before deployment and reduce software defects.
+            Built to help developers and maintainers know the risk
+            of a pull request before it's merged — not after.
           </p>
         </div>
 
@@ -94,10 +94,10 @@ export default function Features() {
         <div className="grid md:grid-cols-3 gap-8 mt-20">
           <div className="text-center">
             <h3 className="text-5xl font-black bg-linear-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-              98%
+              72%
             </h3>
             <p className="text-gray-400 mt-3">
-              Prediction Accuracy
+              Model Accuracy
             </p>
           </div>
 
