@@ -1,5 +1,6 @@
 import requests
 import os
+import math
 
 # --------------------------------------------------
 # GitHub Personal Access Token
@@ -74,52 +75,121 @@ def parse_repo(repo_url):
 
 
 # --------------------------------------------------
-# Latest Commit Metrics
+# Parse Pull Request URL
 # --------------------------------------------------
 
-def get_latest_commit_metrics(repo_url):
+def parse_pr_url(pr_url):
 
-    owner, repo = parse_repo(repo_url)
+    pr_url = pr_url.strip().rstrip("/")
 
-    commits_url = (
-        f"https://api.github.com/repos/"
-        f"{owner}/{repo}/commits"
-    )
-
-    commits = github_get(commits_url)
-
-    if not isinstance(commits, list):
+    if not pr_url.startswith("https://github.com/"):
         raise Exception(
-            f"Unexpected GitHub response: {commits}"
+            "Invalid GitHub pull request URL. "
+            "Expected format: https://github.com/owner/repo/pull/123"
         )
 
-    if len(commits) == 0:
+    parts = pr_url.split("/")
+
+    if "pull" not in parts:
         raise Exception(
-            "Repository contains no commits."
+            "That looks like a repository URL, not a pull "
+            "request URL. Expected format: "
+            "https://github.com/owner/repo/pull/123"
         )
 
-    latest_sha = commits[0]["sha"]
+    try:
+        pull_index = parts.index("pull")
+        owner = parts[pull_index - 2]
+        repo = parts[pull_index - 1]
+        pr_number = int(parts[pull_index + 1])
 
-    commit_url = (
+    except (ValueError, IndexError):
+        raise Exception(
+            "Invalid GitHub pull request URL. "
+            "Expected format: https://github.com/owner/repo/pull/123"
+        )
+
+    return owner, repo, pr_number
+
+
+# --------------------------------------------------
+# Pull Request Metrics
+# --------------------------------------------------
+
+def get_pull_request_metrics(pr_url):
+
+    owner, repo, pr_number = parse_pr_url(pr_url)
+
+    pr_api_url = (
         f"https://api.github.com/repos/"
-        f"{owner}/{repo}/commits/{latest_sha}"
+        f"{owner}/{repo}/pulls/{pr_number}"
     )
 
-    commit = github_get(commit_url)
+    pr = github_get(pr_api_url)
 
-    stats = commit.get("stats", {})
+    files_url = (
+        f"https://api.github.com/repos/"
+        f"{owner}/{repo}/pulls/{pr_number}/files"
+    )
 
-    files = commit.get("files", [])
+    files = github_get(files_url)
+
+    if not isinstance(files, list):
+        files = []
+
+    # ---- Directories / subsystems touched ----
+
+    directories = set()
+    subsystems = set()
+
+    for f in files:
+        path = f.get("filename", "")
+        segments = path.split("/")
+
+        if len(segments) > 1:
+            directories.add("/".join(segments[:-1]))
+            subsystems.add(segments[0])
+        else:
+            directories.add(".")
+            subsystems.add(".")
+
+    # ---- Entropy of change distribution across files ----
+    # Higher entropy = changes are more scattered across files,
+    # which prior JIT research links to higher defect risk.
+
+    churns = [
+        f.get("additions", 0) + f.get("deletions", 0)
+        for f in files
+    ]
+
+    total_churn = sum(churns)
+
+    if total_churn > 0:
+        entropy = -sum(
+            (c / total_churn) * math.log2(c / total_churn)
+            for c in churns if c > 0
+        )
+    else:
+        entropy = 0.0
 
     return {
-    "sha": latest_sha,
-    "author": commit["commit"]["author"]["name"],
-    "message": commit["commit"]["message"],
-    "date": commit["commit"]["author"]["date"],
-    "la": stats.get("additions", 0),
-    "ld": stats.get("deletions", 0),
-    "nf": len(files)
-}
+        "number": pr.get("number"),
+        "title": pr.get("title"),
+        "author": (pr.get("user") or {}).get("login"),
+        "state": pr.get("state"),
+        "base_branch": (pr.get("base") or {}).get("ref"),
+        "head_branch": (pr.get("head") or {}).get("ref"),
+        "created_at": pr.get("created_at"),
+        "commits": pr.get("commits", 0),
+        "url": pr.get("html_url"),
+
+        "la": pr.get("additions", 0),
+        "ld": pr.get("deletions", 0),
+        "nf": pr.get("changed_files", len(files)),
+        "nd": len(directories),
+        "ns": len(subsystems),
+        "ent": round(entropy, 4),
+    }
 
 
 # --------------------------------------------------

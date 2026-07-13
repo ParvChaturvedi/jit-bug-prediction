@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GitBranch, ArrowRight } from "lucide-react";
+import { GitPullRequest, ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
-  const [repoUrl, setRepoUrl] = useState("");
+  const [prUrl, setPrUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  const analyzeRepository = async () => {
-  if (!repoUrl.trim()) {
-    setError("Please enter a GitHub repository URL.");
+  const analyzePullRequest = async () => {
+  if (!prUrl.trim()) {
+    setError("Please enter a GitHub pull request URL.");
     return;
   }
 
@@ -27,7 +27,7 @@ export default function HeroSection() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          repo_url: repoUrl,
+          pr_url: prUrl,
         }),
       }
     );
@@ -36,7 +36,7 @@ export default function HeroSection() {
 
     if (!response.ok) {
       throw new Error(
-        data.error || "Failed to analyze repository."
+        data.error || "Failed to analyze pull request."
       );
     }
 
@@ -130,7 +130,7 @@ export default function HeroSection() {
             leading-tight
           "
         >
-          Predict Software
+          Know The Risk
           <br />
           <span
             className="
@@ -141,7 +141,7 @@ export default function HeroSection() {
               text-transparent
             "
           >
-            Defects Before Deployment
+            Before You Merge
           </span>
         </h1>
 
@@ -153,9 +153,9 @@ export default function HeroSection() {
             max-w-3xl
           "
         >
-          Analyze GitHub repositories using machine
-          learning and identify bug-prone commits
-          with Just-In-Time Bug Prediction.
+          Paste a pull request link and get a bug-risk
+          assessment before it's merged — powered by
+          Just-In-Time machine learning.
         </p>
 
         {/* Input Box */}
@@ -184,14 +184,14 @@ export default function HeroSection() {
                 px-4
               "
             >
-              <GitBranch className="text-white" />
+              <GitPullRequest className="text-white" />
 
               <input
                 type="text"
-                placeholder="Paste GitHub repository URL..."
-                value={repoUrl}
+                placeholder="Paste GitHub pull request URL..."
+                value={prUrl}
                 onChange={(e) =>
-                  setRepoUrl(e.target.value)
+                  setPrUrl(e.target.value)
                 }
                 className="
                   bg-transparent
@@ -204,7 +204,7 @@ export default function HeroSection() {
             </div>
 
             <button
-              onClick={analyzeRepository}
+              onClick={analyzePullRequest}
               disabled={loading}
               className="
                 bg-indigo-600
@@ -225,7 +225,7 @@ export default function HeroSection() {
             >
               {loading
                 ? "Analyzing..."
-                : "Analyze Repository"}
+                : "Analyze Pull Request"}
 
               {!loading && (
                 <ArrowRight size={18} />
@@ -247,7 +247,7 @@ export default function HeroSection() {
                 ml-2
               "
             >
-              https://github.com/facebook/react
+              https://github.com/facebook/react/pull/1234
             </span>
           </p>
           {error && (

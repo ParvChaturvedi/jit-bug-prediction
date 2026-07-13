@@ -8,8 +8,9 @@ import shap
 from pathlib import Path
 
 from github_service import (
-    get_latest_commit_metrics,
-    get_repository_stats
+    get_pull_request_metrics,
+    get_repository_stats,
+    parse_pr_url
 )
 
 app = Flask(__name__)
@@ -98,33 +99,42 @@ def predict():
                 "error": "Invalid request body."
             }), 400
 
-        repo_url = data.get("repo_url", "").strip()
+        pr_url = data.get("pr_url", "").strip()
 
-        if not repo_url:
+        if not pr_url:
             return jsonify({
                 "success": False,
-                "error": "Please enter a GitHub repository URL."
+                "error": "Please enter a GitHub pull request URL."
             }), 400
 
         # ------------------------------------------------
         # GitHub Data
         # ------------------------------------------------
 
-        metrics = get_latest_commit_metrics(repo_url)
+        owner, repo, pr_number = parse_pr_url(pr_url)
 
-        repo_stats = get_repository_stats(repo_url)
+        pr_metrics = get_pull_request_metrics(pr_url)
+
+        repo_stats = get_repository_stats(
+            f"https://github.com/{owner}/{repo}"
+        )
 
         # ------------------------------------------------
         # Feature Vector
         # ------------------------------------------------
+        # la, ld, nf, nd, ns, ent come straight from the
+        # pull request's actual file diff. Historical /
+        # experience features aren't available per-PR from
+        # the GitHub API, so dataset averages are used for
+        # those, same as the rest of the model's training data.
 
         features = [[
-            metrics["la"],
-            metrics["ld"],
-            metrics["nf"],
-            feature_means["nd"],
-            feature_means["ns"],
-            feature_means["ent"],
+            pr_metrics["la"],
+            pr_metrics["ld"],
+            pr_metrics["nf"],
+            pr_metrics["nd"],
+            pr_metrics["ns"],
+            pr_metrics["ent"],
             feature_means["ndev"],
             feature_means["age"],
             feature_means["nuc"],
@@ -186,6 +196,32 @@ def predict():
             risk = "LOW"
 
         # ------------------------------------------------
+        # Merge Recommendation
+        # ------------------------------------------------
+
+        if risk == "LOW":
+            recommendation = (
+                "No significant risk indicators detected. "
+                "This pull request looks safe to merge."
+            )
+            safe_to_merge = True
+
+        elif risk == "MEDIUM":
+            recommendation = (
+                "Some risk indicators detected. Consider an "
+                "additional review before merging."
+            )
+            safe_to_merge = False
+
+        else:
+            recommendation = (
+                "High risk of introducing a defect. Thorough "
+                "review and testing are strongly recommended "
+                "before merging."
+            )
+            safe_to_merge = False
+
+        # ------------------------------------------------
         # Response
         # ------------------------------------------------
 
@@ -193,7 +229,7 @@ def predict():
 
             "success": True,
 
-            "repository": repo_url,
+            "repository": f"{owner}/{repo}",
 
             "prediction": prediction,
 
@@ -209,25 +245,45 @@ def predict():
 
             "risk": risk,
 
-            "latest_commit": {
+            "safe_to_merge": safe_to_merge,
 
-                "sha": metrics.get("sha"),
+            "recommendation": recommendation,
 
-                "author": metrics.get("author"),
+            "pull_request": {
 
-                "message": metrics.get("message"),
+                "number": pr_metrics.get("number"),
 
-                "date": metrics.get("date")
+                "title": pr_metrics.get("title"),
+
+                "author": pr_metrics.get("author"),
+
+                "state": pr_metrics.get("state"),
+
+                "base_branch": pr_metrics.get("base_branch"),
+
+                "head_branch": pr_metrics.get("head_branch"),
+
+                "created_at": pr_metrics.get("created_at"),
+
+                "commits": pr_metrics.get("commits"),
+
+                "url": pr_metrics.get("url")
 
             },
 
             "metrics": {
 
-                "la": metrics.get("la"),
+                "la": pr_metrics.get("la"),
 
-                "ld": metrics.get("ld"),
+                "ld": pr_metrics.get("ld"),
 
-                "nf": metrics.get("nf")
+                "nf": pr_metrics.get("nf"),
+
+                "nd": pr_metrics.get("nd"),
+
+                "ns": pr_metrics.get("ns"),
+
+                "ent": pr_metrics.get("ent")
 
             },
 
