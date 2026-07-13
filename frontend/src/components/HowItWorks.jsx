@@ -2,31 +2,31 @@ export default function HowItWorks() {
   const steps = [
     {
       number: "01",
-      title: "Paste Repository URL",
+      title: "Paste Pull Request URL",
       description:
-        "Enter any public GitHub repository URL for analysis.",
+        "Enter a GitHub pull request link — the one you're deciding whether to merge.",
       icon: "🔗",
     },
     {
       number: "02",
-      title: "Extract JIT Metrics",
+      title: "Extract Diff Metrics",
       description:
-        "Collect commit history, code churn and developer activity metrics.",
+        "The app pulls the PR's real file changes: lines added/deleted, files, directories, and subsystems touched.",
       icon: "📊",
     },
     {
       number: "03",
-      title: "Run XGBoost Model",
+      title: "Run XGBoost + SHAP",
       description:
-        "Our trained machine learning model predicts bug-prone commits.",
+        "The trained model scores bug risk, and SHAP surfaces which changes are driving that score.",
       icon: "🤖",
     },
     {
       number: "04",
-      title: "View Results",
+      title: "Get a Merge Recommendation",
       description:
-        "See bug probability, risk level and explainable insights.",
-      icon: "🚀",
+        "See the risk level and a clear safe-to-merge or review-recommended call, with a link straight to the PR.",
+      icon: "✅",
     },
   ];
 
@@ -46,7 +46,7 @@ export default function HowItWorks() {
           </h2>
 
           <p className="text-gray-400 mt-6 text-lg">
-            From repository URL to bug prediction in seconds.
+            From pull request link to merge recommendation in seconds.
           </p>
         </div>
 
