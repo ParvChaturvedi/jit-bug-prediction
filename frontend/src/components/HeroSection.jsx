@@ -154,7 +154,7 @@ export default function HeroSection() {
           "
         >
           Paste a pull request link and get a bug-risk
-          assessment before it's merged — powered by
+          assessment before it's merged, Powered by
           Just-In-Time machine learning.
         </p>
 
