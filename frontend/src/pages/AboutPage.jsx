@@ -65,7 +65,7 @@ export default function AboutPage() {
     {
       icon: Sparkles,
       title: "Explainability",
-      text: "SHAP is used to surface the top features behind every prediction, so results aren't just a risk score — they come with a reason.",
+      text: "SHAP is used to surface the top features behind every prediction, so results aren't just a risk score, they come with a reason.",
     },
   ];
 
@@ -87,7 +87,7 @@ export default function AboutPage() {
 
           <p className="text-gray-400 text-lg mt-6 max-w-3xl mx-auto leading-relaxed">
             Just-In-Time Bug Prediction analyzes a pull request before
-            it's merged — using machine learning trained on real-world
+            it's merged using machine learning trained on real-world
             Apache software history, so risky changes can be caught
             at the exact moment someone is deciding whether to merge.
           </p>
@@ -128,7 +128,7 @@ export default function AboutPage() {
 
             <p className="text-gray-400 leading-relaxed">
               Traditional defect prediction operates at the file or
-              module level and often flags risk too late — after code
+              module level and often flags risk too late after code
               has already reached the main branch. Just-In-Time
               prediction instead evaluates a pull request at the exact
               moment it's proposed, using the size and shape of its
@@ -179,7 +179,7 @@ export default function AboutPage() {
 
             <p className="text-gray-400 leading-relaxed mb-6">
               The deployed app doesn't just analyze a repository in
-              general — it studies one specific pull request. Paste
+              general, it studies one specific pull request. Paste
               its GitHub link, and the app fetches that PR's real
               diff (lines changed, files touched, how scattered the
               change is), runs it through XGBoost, and returns a risk

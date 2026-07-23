@@ -20,7 +20,7 @@ export default function Features() {
     {
       icon: <GitPullRequest size={42} />,
       title: "Real Diff Metrics",
-      desc: "Analyzes the pull request's actual changed files, lines, and how scattered the change is — not just a repository average.",
+      desc: "Analyzes the pull request's actual changed files, lines, and how scattered the change is-not just a repository average.",
     },
     {
       icon: <ShieldCheck size={42} />,
@@ -46,7 +46,7 @@ export default function Features() {
 
           <p className="text-gray-400 mt-6 text-lg max-w-3xl mx-auto">
             Built to help developers and maintainers know the risk
-            of a pull request before it's merged — not after.
+            of a pull request before it's merged not after.
           </p>
         </div>
 
