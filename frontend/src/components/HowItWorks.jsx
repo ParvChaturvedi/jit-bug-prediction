@@ -4,7 +4,7 @@ export default function HowItWorks() {
       number: "01",
       title: "Paste Pull Request URL",
       description:
-        "Enter a GitHub pull request link — the one you're deciding whether to merge.",
+        "Enter a GitHub pull request link the one you're deciding whether to merge.",
       icon: "🔗",
     },
     {
