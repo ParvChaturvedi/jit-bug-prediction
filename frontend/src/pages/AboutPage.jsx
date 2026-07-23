@@ -50,12 +50,12 @@ export default function AboutPage() {
     {
       icon: Database,
       title: "Dataset",
-      text: "Trained on ApacheJIT — 106,674 commits across 14 Apache open-source projects (2003–2019), with commit-level code, historical, and developer-experience metrics.",
+      text: "Trained on ApacheJIT : 106,674 commits across 14 Apache open-source projects (2003–2019), with commit-level code, historical, and developer-experience metrics.",
     },
     {
       icon: GitBranch,
       title: "Preprocessing",
-      text: "Chronological train/test split, SMOTE oversampling for class imbalance, and feature scaling — all applied without leaking future data into training.",
+      text: "Chronological train/test split, SMOTE oversampling for class imbalance, and feature scaling , all applied without leaking future data into training.",
     },
     {
       icon: Brain,
