@@ -70,42 +70,17 @@ export default function HeroSection() {
         overflow-hidden
       "
     >
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=2000')",
-        }}
-      />
+      {/* Premium Background */}
+<div className="absolute inset-0 bg-[#04070F]" />
 
-      {/* Overlay */}
-      <div
-        className="
-          absolute
-          inset-0
-          bg-linear-to-b
-          from-black/70
-          via-slate-900/70
-          to-slate-950
-        "
-      />
+{/* Animated Gradient Blobs */}
+<div className="absolute -top-40 left-10 w-[650px] h-[650px] rounded-full bg-indigo-600/20 blur-[180px] animate-pulse" />
 
-      {/* Glow Effect */}
-      <div
-        className="
-          absolute
-          top-1/2
-          left-1/2
-          -translate-x-1/2
-          -translate-y-1/2
-          w-175
-          h-175
-          bg-indigo-500/20
-          blur-[180px]
-          rounded-full
-        "
-      />
+<div className="absolute top-10 right-0 w-[500px] h-[500px] rounded-full bg-cyan-500/15 blur-[170px] animate-pulse" />
+
+<div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-purple-600/10 blur-[220px]" />
+
+<div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/20 to-slate-950" />
 
       {/* Hero Content */}
       <div
@@ -122,47 +97,58 @@ export default function HeroSection() {
         "
       >
         <h1
-          className="
-            text-white
-            font-black
-            text-6xl
-            md:text-8xl
-            leading-tight
-          "
-        >
-          Know The Risk
-          <br />
-          <span
-            className="
-              bg-linear-to-r
-              from-indigo-400
-              to-cyan-400
-              bg-clip-text
-              text-transparent
-            "
-          >
-            Before You Merge
-          </span>
-        </h1>
+  className="
+    text-7xl
+    md:text-9xl
+    font-black
+    leading-none
+    tracking-tight
+    text-white
+  "
+>
+  Predict Software
 
+  <br />
+
+  <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+
+    Defects Before
+
+  </span>
+
+  <br />
+
+  Deployment
+
+</h1>
         <p
-          className="
-            text-gray-300
-            mt-8
-            text-xl
-            max-w-3xl
-          "
-        >
-          Paste a pull request link and get a bug-risk
-          assessment before it's merged, Powered by
-          Just-In-Time machine learning.
-        </p>
+  className="
+    mt-8
+    text-slate-300
+    text-xl
+    md:text-2xl
+    max-w-3xl
+    leading-relaxed
+  "
+>
+  Analyze GitHub Pull Requests using
+  <span className="text-indigo-300 font-semibold">
+    {" "}
+    Explainable AI
+  </span>
+  {" "}
+  and detect bug-prone changes before they reach production.
+</p>
 
         {/* Input Box */}
         <div className="mt-12 w-full max-w-4xl">
           <div
             className="
-              bg-white/5
+              bg-white/10
+    backdrop-blur-2xl
+border-white/20
+shadow-[0_20px_80px_rgba(99,102,241,0.15)]
+rounded-[30px]
               backdrop-blur-xl
               border
               border-white/10
@@ -188,18 +174,19 @@ export default function HeroSection() {
 
               <input
                 type="text"
-                placeholder="Paste GitHub pull request URL..."
+                placeholder="Paste GitHub Pull Request URL..."
                 value={prUrl}
                 onChange={(e) =>
                   setPrUrl(e.target.value)
                 }
                 className="
-                  bg-transparent
-                  outline-none
-                  text-white
-                  w-full
-                  placeholder:text-gray-400
-                "
+w-full
+bg-transparent
+text-lg
+text-white
+placeholder:text-slate-400
+outline-none
+"
               />
             </div>
 
@@ -207,21 +194,23 @@ export default function HeroSection() {
               onClick={analyzePullRequest}
               disabled={loading}
               className="
-                bg-indigo-600
-                hover:bg-indigo-700
-                disabled:opacity-50
-                disabled:cursor-not-allowed
-                px-8
-                py-4
-                rounded-xl
-                text-white
-                font-semibold
-                flex
-                items-center
-                justify-center
-                gap-2
-                transition-all
-              "
+bg-gradient-to-r
+from-indigo-600
+to-purple-600
+hover:scale-105
+hover:shadow-2xl
+hover:shadow-indigo-500/30
+transition-all
+duration-300
+px-10
+py-5
+rounded-2xl
+font-semibold
+text-lg
+flex
+items-center
+gap-2
+"
             >
               {loading
                 ? "Analyzing..."
@@ -255,6 +244,10 @@ export default function HeroSection() {
     className="
       mt-4
       bg-red-500/10
+backdrop-blur-xl
+border-red-400/30
+rounded-2xl
+shadow-lg
       border
       border-red-500
       text-red-300
