@@ -50,8 +50,7 @@ This project was carried out as a **2-Credit Summer Research Project** under the
 | Field         | Details                              |
 | ------------- | ------------------------------------ |
 | Project Title | Just-In-Time Software Bug Prediction |
-| Student 1     | Parv Chaturvedi (BTECH/10408/23)     |
-| Student 2     | Sakshar Daksh (BTECH/10422/23)       |
+| Student       | Parv Chaturvedi (BTECH/10408/23)     |
 | Department    | Computer Science & Engineering       |
 | Institute     | Birla Institute of Technology, Mesra |
 | Supervisor    | Dr. Kumar Rajnish                    |
